@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "slug": "web-development-bootcamp",
+    "name": "Complete Web Development Bootcamp",
+    "description": "Master HTML, CSS, JavaScript, React, Node.js and more",
+    "price": 89.99,
+    "image": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop",
+    "instructor": "John Smith",
+    "duration": "40 hours",
+    "level": "Beginner to Advanced",
+    "students": 15420,
+    "rating": 4.8,
+    "category": "Web Development",
+    "highlights": [
+      "Build 15+ real-world projects",
+      "Learn modern JavaScript ES6+",
+      "Master React and Node.js",
+      "Get job-ready skills"
+    ]
+  },
+  {
+    "id": 2,
+    "slug": "python-data-science",
+    "name": "Python for Data Science & Machine Learning",
+    "description": "Learn Python, NumPy, Pandas, Matplotlib, Scikit-Learn & more",
+    "price": 94.99,
+    "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&h=600&fit=crop",
+    "instructor": "Sarah Johnson",
+    "duration": "35 hours",
+    "level": "Intermediate",
+    "students": 12350,
+    "rating": 4.9,
+    "category": "Data Science",
+    "highlights": [
+      "Master Python programming",
+      "Learn data visualization",
+      "Build ML models",
+      "Real-world datasets"
+    ]
+  },
+  {
+    "id": 3,
+    "slug": "ui-ux-design",
+    "name": "UI/UX Design Masterclass",
+    "description": "Learn user interface and user experience design from scratch",
+    "price": 79.99,
+    "image": "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=600&fit=crop",
+    "instructor": "Emily Chen",
+    "duration": "28 hours",
+    "level": "Beginner",
+    "students": 9870,
+    "rating": 4.7,
+    "category": "Design",
+    "highlights": [
+      "Master Figma & Adobe XD",
+      "Learn design principles",
+      "Create stunning portfolios",
+      "User research techniques"
+    ]
+  },
+  {
+    "id": 4,
+    "slug": "digital-marketing",
+    "name": "Digital Marketing Complete Course",
+    "description": "SEO, Social Media, Email Marketing, Google Ads & Analytics",
+    "price": 69.99,
+    "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
+    "instructor": "Michael Brown",
+    "duration": "32 hours",
+    "level": "All Levels",
+    "students": 18200,
+    "rating": 4.6,
+    "category": "Marketing",
+    "highlights": [
+      "Master SEO strategies",
+      "Social media marketing",
+      "Google Ads certification",
+      "Analytics & reporting"
+    ]
+  },
+  {
+    "id": 5,
+    "slug": "react-native-mobile",
+    "name": "Mobile App Development with React Native",
+    "description": "Build iOS and Android apps with React Native and JavaScript",
+    "price": 99.99,
+    "image": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=600&fit=crop",
+    "instructor": "David Lee",
+    "duration": "45 hours",
+    "level": "Intermediate",
+    "students": 8540,
+    "rating": 4.8,
+    "category": "Mobile Development",
+    "highlights": [
+      "Build cross-platform apps",
+      "Master React Native",
+      "Deploy to app stores",
+      "Real-time features"
+    ]
+  },
+  {
+    "id": 6,
+    "slug": "aws-cloud-practitioner",
+    "name": "AWS Cloud Practitioner Certification",
+    "description": "Complete AWS Cloud training with hands-on labs and projects",
+    "price": 84.99,
+    "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=600&fit=crop",
+    "instructor": "Robert Wilson",
+    "duration": "30 hours",
+    "level": "Beginner",
+    "students": 11200,
+    "rating": 4.9,
+    "category": "Cloud Computing",
+    "highlights": [
+      "AWS certification prep",
+      "Hands-on labs",
+      "Cloud architecture",
+      "Practice exams included"
+    ]
+  }
+]
