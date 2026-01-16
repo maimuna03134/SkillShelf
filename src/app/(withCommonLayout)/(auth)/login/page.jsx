@@ -57,8 +57,8 @@ export default function LoginPage() {
       document.cookie = `userEmail=${user.email}; path=/; max-age=86400`;
       document.cookie = `userRole=${user.role}; path=/; max-age=86400`;
       
-      // Redirect to courses page
-      router.push('/courses');
+      // Redirect to dashboard
+      router.push('/dashboard');
     } else {
       setError('Invalid email or password. Please try again.');
       setIsLoading(false);
