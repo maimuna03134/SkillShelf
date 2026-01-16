@@ -1,32 +1,11 @@
-import Container from '@/components/Container';
+
+import Container from '@/components/shared/Container';
 import React from 'react'
 
 export default async function CourseDetailsPage({ params }) {
 
     const { slug } = await params;
     console.log(slug)
-
-    const course = [
-        {
-            "id": 6,
-            "name": "AWS Cloud Practitioner Certification",
-            "description": "Complete AWS Cloud training with hands-on labs and projects",
-            "price": 84.99,
-            "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=600&fit=crop",
-            "instructor": "Robert Wilson",
-            "duration": "30 hours",
-            "level": "Beginner",
-            "students": 11200,
-            "rating": 4.9,
-            "category": "Cloud Computing",
-            "highlights": [
-                "AWS certification prep",
-                "Hands-on labs",
-                "Cloud architecture",
-                "Practice exams included"
-            ]
-        }
-    ]
     return (
 
         <main className="min-h-screen ">
@@ -144,7 +123,7 @@ export default async function CourseDetailsPage({ params }) {
                                     for a successful career in 11240.
                                 </p>
                                 <p className="text-lg text-gray-700 leading-relaxed mb-4">
-                                    Our expert instructor, {course.instructor}, brings years of industry experience and
+                                    Our expert instructor, Robert Wilson, brings years of industry experience and
                                     has helped thousands of students achieve their learning goals. The course includes
                                     video lectures, downloadable resources, coding exercises, and lifetime access to all materials.
                                 </p>

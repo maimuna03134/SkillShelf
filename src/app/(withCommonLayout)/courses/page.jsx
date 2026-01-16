@@ -1,7 +1,8 @@
-import Container from '@/components/Container'
+
 import Link from 'next/link'
 import React from 'react'
 import Card from './_components/Card'
+import Container from '@/components/shared/Container'
 
 export default function page() {
     return (

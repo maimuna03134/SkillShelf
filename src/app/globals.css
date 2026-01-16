@@ -7,8 +7,8 @@
  @plugin "daisyui/theme" {
   name: "light";
   default: true;
-  --color-primary: blue;
-  --color-secondary: teal;
+  --color-primary: #17a2b7;
+  --color-secondary: #24292d;
 }
 
 @custom-variant dark (&:where([data-theme=night], [data-theme=night] *));
