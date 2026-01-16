@@ -6,6 +6,7 @@ import { Home, BookOpen, Info, Mail, HeadphonesIcon, Newspaper, Menu, X } from '
 import Container from './Container';
 import Logo from './Logo';
 import Button from './Button';
+import ThemeToggle from './ThemeToggle';
 
 const navItems = [
   { name: 'Home', href: '/', icon: Home },
@@ -24,7 +25,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
+    <nav className="bg-white dark:bg-[#1a1d23] shadow-md sticky top-0 z-50 transition-colors duration-200">
       <Container>
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
@@ -40,7 +41,7 @@ export default function Navbar() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="flex items-center space-x-1 px-3 py-2 rounded-lg text-[#24292d] hover:text-[#17a2b7] hover:bg-gray-50 transition-all duration-200"
+                  className="flex items-center space-x-1 px-3 py-2 rounded-lg text-[#24292d] dark:text-gray-200 hover:text-[#17a2b7] dark:hover:text-[#17a2b7] hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200"
                 >
                   <Icon size={18} />
                   <span className="font-medium">{item.name}</span>
@@ -49,8 +50,9 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* Sign In Button - Desktop */}
-          <div className="hidden lg:block">
+          {/* Right Side - Theme Toggle & Sign In Button */}
+          <div className="hidden lg:flex items-center space-x-3">
+            <ThemeToggle />
             <Link href="/signin">
               <Button variant="primary" size="md">
                 Sign In
@@ -59,18 +61,21 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            onClick={toggleMobileMenu}
-            className="lg:hidden p-2 rounded-lg text-[#24292d] hover:bg-gray-100 transition-colors"
-            aria-label="Toggle menu"
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="lg:hidden flex items-center space-x-2">
+            <ThemeToggle />
+            <button
+              onClick={toggleMobileMenu}
+              className="p-2 rounded-lg text-[#24292d] dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Navigation Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden pb-4 border-t border-gray-200 mt-2 pt-4">
+          <div className="lg:hidden pb-4 border-t border-gray-200 dark:border-gray-700 mt-2 pt-4">
             <div className="flex flex-col space-y-2">
               {navItems.map((item) => {
                 const Icon = item.icon;
@@ -79,7 +84,7 @@ export default function Navbar() {
                     key={item.name}
                     href={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center space-x-3 px-4 py-3 rounded-lg text-[#24292d] hover:text-[#17a2b7] hover:bg-gray-50 transition-all duration-200"
+                    className="flex items-center space-x-3 px-4 py-3 rounded-lg text-[#24292d] dark:text-gray-200 hover:text-[#17a2b7] dark:hover:text-[#17a2b7] hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200"
                   >
                     <Icon size={20} />
                     <span className="font-medium">{item.name}</span>

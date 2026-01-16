@@ -8,7 +8,7 @@ export default function Logo() {
       <div className="w-10 h-10 bg-[#17a2b7] rounded-lg flex items-center justify-center">
         <BookOpen className="text-white" size={24} />
       </div>
-      <span className="text-xl md:text-2xl font-bold text-[#24292d]">SkillShelf</span>
+      <span className="text-xl md:text-2xl font-bold text-[#24292d] dark:text-white">SkillShelf</span>
     </Link>
   );
 }
