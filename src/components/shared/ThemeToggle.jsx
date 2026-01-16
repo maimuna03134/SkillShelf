@@ -1,26 +1,36 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useLayoutEffect, useState, useRef } from 'react';
 import { Sun, Moon } from 'lucide-react';
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState(() => {
-    // Initialize from localStorage if available
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('theme') || 'light';
-    }
-    return 'light';
-  });
+  const [theme, setTheme] = useState('light');
+  const [isClient, setIsClient] = useState(false);
+  const mountedRef = useRef(false);
 
-  useEffect(() => {
-    // Apply theme to document
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-  }, [theme]);
+  useLayoutEffect(() => {
+    if (!mountedRef.current) {
+      mountedRef.current = true;
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      setTheme(savedTheme);
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      setIsClient(true);
+    }
+  }, []);
 
   const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
   };
+
+  // Prevent hydration mismatch by not rendering until mounted
+  if (!isClient) {
+    return (
+      <div className="p-2 w-9 h-9" />
+    );
+  }
 
   return (
     <button
