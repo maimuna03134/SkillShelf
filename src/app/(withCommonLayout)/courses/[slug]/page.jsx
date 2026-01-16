@@ -38,7 +38,7 @@ export default async function CourseDetailsPage({ params }) {
                                 <span className="text-5xl font-bold">$ 84.99</span>
                                 <button
                                     // onClick={handleEnroll}
-                                    className="px-8 py-4 bg-white text-blue-600 rounded-lg font-semibold hover:shadow-xl transition-all text-lg"
+                                    className="px-8 py-4  text-blue-600 rounded-lg font-semibold hover:shadow-xl transition-all text-lg"
                                 >
                                     Enroll Now
                                 </button>
@@ -61,7 +61,7 @@ export default async function CourseDetailsPage({ params }) {
                     <div className="lg:col-span-2">
                         <section className="mb-12">
                             <h2 className="text-4xl font-bold text-gray-900 mb-6">What You'll Learn</h2>
-                            <div className="bg-white p-8 rounded-xl shadow-lg">
+                            <div className=" p-8 rounded-xl shadow-lg">
                                 {/* <ul className="space-y-4">
                                     {course.highlights.map((highlight, index) => (
                                         <li key={index} className="flex items-start">
@@ -116,7 +116,7 @@ export default async function CourseDetailsPage({ params }) {
 
                         <section className="mb-12">
                             <h2 className="text-4xl font-bold text-gray-900 mb-6">Course Description</h2>
-                            <div className="bg-white p-8 rounded-xl shadow-lg">
+                            <div className=" p-8 rounded-xl shadow-lg">
                                 <p className="text-lg text-gray-700 leading-relaxed mb-4">
                                     This comprehensive course is designed to take you from beginner to advanced level.
                                     You'll learn through hands-on projects and real-world examples that will prepare you
@@ -136,7 +136,7 @@ export default async function CourseDetailsPage({ params }) {
 
                         <section className="mb-12">
                             <h2 className="text-4xl font-bold text-gray-900 mb-6">Requirements</h2>
-                            <div className="bg-white p-8 rounded-xl shadow-lg">
+                            <div className=" p-8 rounded-xl shadow-lg">
                                 <ul className="space-y-3">
                                     <li className="flex items-start">
                                         <span className="text-blue-600 mr-3">•</span>
@@ -156,7 +156,7 @@ export default async function CourseDetailsPage({ params }) {
                     </div>
 
                     <div className="lg:col-span-1">
-                        <div className="bg-white p-8 rounded-xl shadow-lg sticky top-24">
+                        <div className=" p-8 rounded-xl shadow-lg sticky top-24">
                             <h3 className="text-2xl font-bold text-gray-900 mb-6">Course Details</h3>
 
                             <div className="space-y-6">
