@@ -64,30 +64,37 @@ export default function RegisterPage() {
     setError('');
     setSuccess('');
 
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1500));
-
     try {
-      // Mock registration - In real app, this would be an API call
-      // Check if user already exists (mock check)
-      const existingUsers = ['admin@skillshelf.com', 'user@skillshelf.com'];
-      
-      if (existingUsers.includes(formData.email)) {
-        setError('An account with this email already exists');
+      // Register user via backend API
+      const response = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          password: formData.password
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Success - show message and redirect
+        setSuccess('Account created successfully! Redirecting to login...');
+        
+        // Redirect to login after 2 seconds
+        setTimeout(() => {
+          router.push('/login');
+        }, 2000);
+      } else {
+        setError(data.error || 'Registration failed. Please try again.');
         setIsLoading(false);
-        return;
       }
-
-      // Success - show message and redirect
-      setSuccess('Account created successfully! Redirecting to login...');
-      
-      // Redirect to login after 2 seconds
-      setTimeout(() => {
-        router.push('/login');
-      }, 2000);
-
     } catch (err) {
-      setError('Something went wrong. Please try again.');
+      setError('Could not connect to server. Please make sure the backend is running.');
       setIsLoading(false);
     }
   };

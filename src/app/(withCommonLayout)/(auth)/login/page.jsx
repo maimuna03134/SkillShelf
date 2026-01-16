@@ -2,21 +2,8 @@
 
 import LoginForm from '@/components/form/LoginForm';
 import React, { useState } from 'react';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-
-// Mock credentials
-const MOCK_CREDENTIALS = {
-  admin: {
-    email: 'admin@skillshelf.com',
-    password: 'admin123',
-    role: 'admin'
-  },
-  user: {
-    email: 'user@skillshelf.com',
-    password: 'user123',
-    role: 'user'
-  }
-};
 
 export default function LoginPage() {
   const router = useRouter();
@@ -43,24 +30,23 @@ export default function LoginPage() {
     setIsLoading(true);
     setError('');
 
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    try {
+      const result = await signIn('credentials', {
+        email: formData.email,
+        password: formData.password,
+        redirect: false
+      });
 
-    // Check credentials
-    const user = Object.values(MOCK_CREDENTIALS).find(
-      cred => cred.email === formData.email && cred.password === formData.password
-    );
-
-    if (user) {
-      // Set cookies
-      document.cookie = "auth=true; path=/; max-age=86400"; // 24 hours
-      document.cookie = `userEmail=${user.email}; path=/; max-age=86400`;
-      document.cookie = `userRole=${user.role}; path=/; max-age=86400`;
-      
-      // Redirect to dashboard
-      router.push('/dashboard');
-    } else {
-      setError('Invalid email or password. Please try again.');
+      if (result?.error) {
+        setError('Invalid email or password. Please try again.');
+        setIsLoading(false);
+      } else if (result?.ok) {
+        // Redirect to dashboard
+        router.push('/dashboard');
+        router.refresh();
+      }
+    } catch (error) {
+      setError('An error occurred. Please try again.');
       setIsLoading(false);
     }
   };
