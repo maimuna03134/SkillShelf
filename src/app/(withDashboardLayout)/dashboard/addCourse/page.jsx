@@ -1,29 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-
-function getUserFromCookies() {
-  if (typeof document === 'undefined') return null;
-  
-  const cookies = document.cookie.split(';').reduce((acc, cookie) => {
-    const [key, value] = cookie.trim().split('=');
-    acc[key] = value;
-    return acc;
-  }, {});
-
-  if (cookies.auth === 'true') {
-    return {
-      email: cookies.userEmail,
-      role: cookies.userRole || 'user'
-    };
-  }
-  return null;
-}
 
 export default function AddCoursePage() {
   const router = useRouter();
-  const [user, setUser] = useState(null);
+  const { data: session, status } = useSession();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [formData, setFormData] = useState({
@@ -39,13 +22,10 @@ export default function AddCoursePage() {
   });
 
   useEffect(() => {
-    const currentUser = getUserFromCookies();
-    if (currentUser?.role !== 'admin') {
+    if (status === 'authenticated' && session?.user?.role !== 'admin') {
       router.push('/dashboard');
-    } else {
-      setUser(currentUser);
     }
-  }, [router]);
+  }, [status, session, router]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -59,6 +39,13 @@ export default function AddCoursePage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check if user is mock (read-only)
+    if (session?.user?.isMock) {
+      setMessage('Read-only mode: Mock users cannot add courses. Please register a real account.');
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -99,7 +86,11 @@ export default function AddCoursePage() {
     }
   };
 
-  if (!user) {
+  if (status === 'loading') {
+    return null;
+  }
+
+  if (!session || session.user.role !== 'admin') {
     return null;
   }
 
@@ -113,6 +104,13 @@ export default function AddCoursePage() {
         <p className="text-gray-600 dark:text-gray-400">
           Create a new course for students
         </p>
+        {session.user.isMock && (
+          <div className="mt-4 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+            <p className="text-yellow-800 dark:text-yellow-200 text-sm">
+              <strong>Read-Only Mode:</strong> You cannot add courses with a demo account.
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Message */}
@@ -280,8 +278,8 @@ export default function AddCoursePage() {
         <div className="flex gap-4">
           <button
             type="submit"
-            disabled={loading}
-            className="flex-1 px-6 py-4 bg-gradient-to-r from-[#17a2b7] to-[#24292d] text-white rounded-lg font-semibold hover:shadow-xl transition-all disabled:opacity-50"
+            disabled={loading || session.user.isMock}
+            className="flex-1 px-6 py-4 bg-gradient-to-r from-[#17a2b7] to-[#24292d] text-white rounded-lg font-semibold hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? 'Creating Course...' : 'Create Course'}
           </button>

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { BookOpen, User, Users, Plus, LayoutDashboard, X } from 'lucide-react';
 
-export default function DashboardSidebar({ userRole, isOpen, onClose }) {
+export default function DashboardSidebar({ userRole, isMock, isOpen, onClose }) {
   const pathname = usePathname();
 
   const userMenuItems = [
@@ -42,9 +42,16 @@ export default function DashboardSidebar({ userRole, isOpen, onClose }) {
           {/* Header */}
           <div className="p-6 border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                {userRole === 'admin' ? 'Admin Panel' : 'My Dashboard'}
-              </h2>
+              <div>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                  {userRole === 'admin' ? 'Admin Panel' : 'My Dashboard'}
+                </h2>
+                {isMock && (
+                  <span className="inline-block mt-1 px-2 py-1 text-xs font-semibold bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded">
+                    Read Only
+                  </span>
+                )}
+              </div>
               <button
                 onClick={onClose}
                 className="lg:hidden text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"

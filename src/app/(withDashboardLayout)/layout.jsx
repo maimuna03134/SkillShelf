@@ -1,49 +1,23 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import DashboardSidebar from '@/components/shared/DashboardSidebar';
 import { Menu } from 'lucide-react';
 
-function getUserFromCookies() {
-  if (typeof document === 'undefined') return null;
-  
-  const cookies = document.cookie.split(';').reduce((acc, cookie) => {
-    const [key, value] = cookie.trim().split('=');
-    acc[key] = value;
-    return acc;
-  }, {});
-
-  if (cookies.auth === 'true') {
-    return {
-      email: cookies.userEmail,
-      role: cookies.userRole || 'user'
-    };
-  }
-  return null;
-}
-
 export default function DashboardLayout({ children }) {
   const router = useRouter();
-  const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data: session, status } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    const currentUser = getUserFromCookies();
-    
-    if (!currentUser) {
+    if (status === 'unauthenticated') {
       router.push('/login');
-    } else {
-      // Use setTimeout to avoid setState in effect warning
-      setTimeout(() => {
-        setUser(currentUser);
-        setIsLoading(false);
-      }, 0);
     }
-  }, [router]);
+  }, [status, router]);
 
-  if (isLoading) {
+  if (status === 'loading') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#1a1d23]">
         <div className="text-center">
@@ -54,14 +28,15 @@ export default function DashboardLayout({ children }) {
     );
   }
 
-  if (!user) {
+  if (!session) {
     return null;
   }
 
   return (
     <div className="flex min-h-screen bg-gray-50 dark:bg-[#1a1d23]">
       <DashboardSidebar 
-        userRole={user.role} 
+        userRole={session.user.role}
+        isMock={session.user.isMock}
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
       />
