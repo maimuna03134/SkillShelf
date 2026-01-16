@@ -10,8 +10,10 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
-// Path to courses data
+// Path to data files
 const COURSES_FILE = path.join(__dirname, '../src/data/courses.json');
+const USERS_FILE = path.join(__dirname, 'data/users.json');
+const ENROLLMENTS_FILE = path.join(__dirname, 'data/enrollments.json');
 
 // Helper function to read courses
 async function readCourses() {
@@ -35,7 +37,199 @@ async function writeCourses(courses) {
   }
 }
 
+// Helper function to read users
+async function readUsers() {
+  try {
+    const data = await fs.readFile(USERS_FILE, 'utf8');
+    return JSON.parse(data);
+  } catch (error) {
+    return [];
+  }
+}
+
+// Helper function to write users
+async function writeUsers(users) {
+  try {
+    await fs.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
+    return true;
+  } catch (error) {
+    console.error('Error writing users:', error);
+    return false;
+  }
+}
+
+// Helper function to read enrollments
+async function readEnrollments() {
+  try {
+    const data = await fs.readFile(ENROLLMENTS_FILE, 'utf8');
+    return JSON.parse(data);
+  } catch (error) {
+    return [];
+  }
+}
+
+// Helper function to write enrollments
+async function writeEnrollments(enrollments) {
+  try {
+    await fs.writeFile(ENROLLMENTS_FILE, JSON.stringify(enrollments, null, 2));
+    return true;
+  } catch (error) {
+    console.error('Error writing enrollments:', error);
+    return false;
+  }
+}
+
 // Routes
+
+// Auth Routes
+
+// Register new user
+app.post('/api/auth/register', async (req, res) => {
+  try {
+    const { name, email, password, phone } = req.body;
+    
+    const users = await readUsers();
+    
+    // Check if user already exists
+    if (users.find(u => u.email === email)) {
+      return res.status(400).json({ error: 'User already exists' });
+    }
+    
+    const newUser = {
+      id: users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1,
+      name,
+      email,
+      password, // In production, hash this with bcrypt
+      phone,
+      role: 'user',
+      createdAt: new Date().toISOString()
+    };
+    
+    users.push(newUser);
+    await writeUsers(users);
+    
+    // Return user without password
+    const { password: _, ...userWithoutPassword } = newUser;
+    res.status(201).json(userWithoutPassword);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to register user' });
+  }
+});
+
+// Login user
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    
+    const users = await readUsers();
+    const user = users.find(u => u.email === email && u.password === password);
+    
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+    
+    // Return user without password
+    const { password: _, ...userWithoutPassword } = user;
+    res.json(userWithoutPassword);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to login' });
+  }
+});
+
+// Get all users (Admin only)
+app.get('/api/users', async (req, res) => {
+  try {
+    const users = await readUsers();
+    const enrollments = await readEnrollments();
+    
+    // Add enrollment count to each user
+    const usersWithCount = users.map(user => {
+      const { password, ...userWithoutPassword } = user;
+      return {
+        ...userWithoutPassword,
+        enrollmentCount: enrollments.filter(e => e.userId === user.id).length
+      };
+    });
+    
+    res.json(usersWithCount);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch users' });
+  }
+});
+
+// Update user (Admin only)
+app.patch('/api/users/:id', async (req, res) => {
+  try {
+    const users = await readUsers();
+    const index = users.findIndex(u => u.id === parseInt(req.params.id));
+    
+    if (index === -1) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    users[index] = {
+      ...users[index],
+      ...req.body,
+      id: users[index].id // Keep original ID
+    };
+    
+    await writeUsers(users);
+    
+    const { password, ...userWithoutPassword } = users[index];
+    res.json(userWithoutPassword);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to update user' });
+  }
+});
+
+// Delete user (Admin only)
+app.delete('/api/users/:id', async (req, res) => {
+  try {
+    const users = await readUsers();
+    const filteredUsers = users.filter(u => u.id !== parseInt(req.params.id));
+    
+    if (users.length === filteredUsers.length) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    await writeUsers(filteredUsers);
+    res.json({ message: 'User deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete user' });
+  }
+});
+
+// Get user details with enrollments
+app.get('/api/users/:id', async (req, res) => {
+  try {
+    const users = await readUsers();
+    const user = users.find(u => u.id === parseInt(req.params.id));
+    
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    const enrollments = await readEnrollments();
+    const courses = await readCourses();
+    
+    const userEnrollments = enrollments
+      .filter(e => e.userId === user.id)
+      .map(e => ({
+        ...e,
+        course: courses.find(c => c.id === e.courseId)
+      }));
+    
+    const { password, ...userWithoutPassword } = user;
+    res.json({
+      ...userWithoutPassword,
+      enrollments: userEnrollments
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch user details' });
+  }
+});
+
+// Course Routes
 
 // Get all courses
 app.get('/api/courses', async (req, res) => {
