@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
-import { Home, BookOpen, Info, Mail, HeadphonesIcon, Newspaper, Menu, X, ChevronDown, User, LogOut, LayoutDashboard, Settings } from 'lucide-react';
+import { Home, BookOpen, Info, Mail, HeadphonesIcon, Menu, X, ChevronDown, User, LogOut, LayoutDashboard, Settings } from 'lucide-react';
 import Container from './Container';
 import Logo from './Logo';
 import Button from './Button';
@@ -15,7 +15,7 @@ const navItems = [
   { name: 'About', href: '/about', icon: Info },
   { name: 'Contact', href: '/contact', icon: Mail },
   { name: 'Support', href: '/support', icon: HeadphonesIcon },
-  { name: 'News & Blogs', href: '/news', icon: Newspaper },
+
 ];
 
 export default function Navbar() {

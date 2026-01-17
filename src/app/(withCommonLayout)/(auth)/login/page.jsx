@@ -21,7 +21,7 @@ export default function LoginPage() {
       ...prev,
       [name]: value
     }));
-    // Clear error when user starts typing
+   
     if (error) setError('');
   };
 
@@ -41,7 +41,7 @@ export default function LoginPage() {
         setError('Invalid email or password. Please try again.');
         setIsLoading(false);
       } else if (result?.ok) {
-        // Redirect to dashboard
+       
         router.push('/dashboard');
         router.refresh();
       }

@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Mail, Lock, Eye, EyeOff, User, Phone, UserCircle } from 'lucide-react';
 import Button from '../shared/Button';
+import SocialLogin from './SocialLogin';
 
 export default function RegisterForm({ 
   formData, 
@@ -205,7 +206,7 @@ export default function RegisterForm({
               {isLoading ? 'Creating Account...' : 'Create Account'}
             </Button>
           </form>
-
+<SocialLogin/>
           <p className="mt-8 text-center text-gray-600 dark:text-gray-400">
             Already have an account?{' '}
             <Link href="/login" className="font-semibold text-[#17a2b7] hover:text-[#f7c32f]">

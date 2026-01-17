@@ -99,7 +99,7 @@ app.post('/api/auth/register', async (req, res) => {
       id: users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1,
       name,
       email,
-      password, // In production, hash this with bcrypt
+      password, 
       phone,
       role: 'user',
       createdAt: new Date().toISOString()
@@ -133,6 +133,45 @@ app.post('/api/auth/login', async (req, res) => {
     res.json(userWithoutPassword);
   } catch (error) {
     res.status(500).json({ error: 'Failed to login' });
+  }
+});
+
+// Google OAuth login/register
+app.post('/api/auth/google', async (req, res) => {
+  try {
+    const { email, name, image, googleId } = req.body;
+    
+    const users = await readUsers();
+    let user = users.find(u => u.email === email);
+    
+    if (user) {
+      // Update existing user with Google info
+      user.googleId = googleId;
+      user.image = image;
+      user.name = name; // Update name in case it changed
+      await writeUsers(users);
+      
+      const { password, ...userWithoutPassword } = user;
+      res.json(userWithoutPassword);
+    } else {
+      // Create new user from Google OAuth
+      const newUser = {
+        id: users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1,
+        name,
+        email,
+        googleId,
+        image,
+        role: 'user',
+        createdAt: new Date().toISOString()
+      };
+      
+      users.push(newUser);
+      await writeUsers(users);
+      
+      res.status(201).json(newUser);
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to process Google authentication' });
   }
 });
 
@@ -170,7 +209,7 @@ app.patch('/api/users/:id', async (req, res) => {
     users[index] = {
       ...users[index],
       ...req.body,
-      id: users[index].id // Keep original ID
+      id: users[index].id 
     };
     
     await writeUsers(users);
@@ -317,7 +356,7 @@ app.put('/api/courses/:id', async (req, res) => {
     courses[index] = {
       ...courses[index],
       ...req.body,
-      id: courses[index].id // Keep original ID
+      id: courses[index].id 
     };
     
     const success = await writeCourses(courses);

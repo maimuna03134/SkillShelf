@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from "next-auth/providers/google";
 
 // Mock users for read-only access
 const MOCK_USERS = {
@@ -73,22 +74,63 @@ export const authOptions = {
 
         return null;
       }
-    })
+    }),
+
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET
+    }),
+
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async signIn({ user, account, profile }) {
+      // Handle Google OAuth sign in
+      if (account.provider === 'google') {
+        try {
+          // Check if user exists in backend
+          const response = await fetch('http://localhost:5000/api/auth/google', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: user.email,
+              name: user.name,
+              image: user.image,
+              googleId: user.id
+            })
+          });
+
+          if (response.ok) {
+            const userData = await response.json();
+            user.role = userData.role || 'user';
+            user.isMock = false;
+            user.id = userData.id;
+          } else {
+            // If backend is not available, create a default user
+            user.role = 'user';
+            user.isMock = false;
+          }
+        } catch (error) {
+          console.error('Google auth backend error:', error);
+          // Fallback: allow login with default role
+          user.role = 'user';
+          user.isMock = false;
+        }
+      }
+      return true;
+    },
+    async jwt({ token, user, account }) {
       if (user) {
         token.id = user.id;
-        token.role = user.role;
-        token.isMock = user.isMock;
+        token.role = user.role || 'user';
+        token.isMock = user.isMock || false;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id;
-        session.user.role = token.role;
-        session.user.isMock = token.isMock;
+        session.user.role = token.role || 'user';
+        session.user.isMock = token.isMock || false;
       }
       return session;
     }
@@ -101,7 +143,7 @@ export const authOptions = {
     strategy: 'jwt',
     maxAge: 24 * 60 * 60
   },
-  secret: process.env.NEXTAUTH_SECRET || 'your-secret-key-change-in-production'
+  secret: process.env.NEXTAUTH_SECRET || 'secret-key-change-in-production'
 };
 
 const handler = NextAuth(authOptions);

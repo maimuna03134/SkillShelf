@@ -191,7 +191,7 @@ export default function SupportPage() {
               <div className="text-center py-12">
                 <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" />
                 <p className="text-gray-600 dark:text-gray-400 text-lg">
-                  No results found for "{searchQuery}"
+                  No results found for &apos;{searchQuery}&apos;
                 </p>
               </div>
             )}
@@ -254,7 +254,7 @@ export default function SupportPage() {
               Still Need Help?
             </h2>
             <p className="text-xl mb-8">
-              Can't find what you're looking for? Our support team is here to assist you.
+              Can&apos;t find what you&apos;re looking for? Our support team is here to assist you.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a

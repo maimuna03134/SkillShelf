@@ -70,8 +70,8 @@ export default function ContactPage() {
           <div className="max-w-3xl">
             <h1 className="text-5xl font-bold mb-6">Get in Touch</h1>
             <p className="text-xl leading-relaxed">
-              Have questions about our courses or need assistance? We're here to help. 
-              Reach out to us and we'll respond as soon as possible.
+              Have questions about our courses or need assistance? We&apos;re here to help. 
+              Reach out to us and we&apos;ll respond as soon as possible.
             </p>
           </div>
         </Container>

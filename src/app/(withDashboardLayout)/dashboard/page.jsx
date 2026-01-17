@@ -43,7 +43,7 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-600 dark:text-gray-400 text-sm font-medium">
-                {user?.role === 'admin' ? 'Total Courses' : 'Total Enrollments'}
+                {session?.user?.role === 'admin' ? 'Total Courses' : 'Total Enrollments'}
               </p>
               <p className="text-3xl font-bold text-[#17a2b7] mt-2">
                 {session?.user?.role === 'admin' ? coursesData.length : stats.totalEnrollments}
