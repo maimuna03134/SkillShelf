@@ -87,7 +87,7 @@ export default function RegisterPage() {
         
         // Redirect to login after 2 seconds
         setTimeout(() => {
-          router.push('/login');
+          router.push('/dashboard');
         }, 2000);
       } else {
         setError(data.error || 'Registration failed. Please try again.');

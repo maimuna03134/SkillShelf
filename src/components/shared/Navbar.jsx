@@ -43,7 +43,7 @@ export default function Navbar() {
           <Logo />
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
+          <div className="hidden lg:flex items-center space-x-3.5">
             {navItems.map((item) => {
               const Icon = item.icon;
               return (
@@ -60,7 +60,7 @@ export default function Navbar() {
           </div>
 
           {/* Right Side - Theme Toggle & Auth */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center space-x-4">
             <ThemeToggle />
             
             {status === 'loading' ? (
@@ -117,7 +117,7 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center space-x-2">
+          <div className="lg:hidden flex items-center space-x-2">
             <ThemeToggle />
             <button
               onClick={toggleMobileMenu}
@@ -130,7 +130,7 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-200 dark:border-gray-700 max-h-[calc(100vh-4rem)] overflow-y-auto">
+          <div className="lg:hidden py-4 border-t border-gray-200 dark:border-gray-700 max-h-[calc(100vh-4rem)] overflow-y-auto">
             {navItems.map((item) => {
               const Icon = item.icon;
               return (

@@ -65,7 +65,7 @@ export default function ContactPage() {
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-[#1a1d23] transition-colors">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-[#17a2b7] to-[#24292d] text-white py-20">
+      <div className="bg-linear-to-r from-[#17a2b7] to-[#24292d] text-white py-20">
         <Container>
           <div className="max-w-3xl">
             <h1 className="text-5xl font-bold mb-6">Get in Touch</h1>
@@ -156,7 +156,7 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full px-6 py-4 bg-gradient-to-r from-[#17a2b7] to-[#24292d] text-white rounded-lg font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                  className="w-full px-6 py-4 bg-linear-to-r from-[#17a2b7] to-[#24292d] text-white rounded-lg font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                 >
                   {isSubmitting ? (
                     <>

@@ -3,17 +3,20 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { BookOpen, User, Users, Plus, LayoutDashboard, X } from 'lucide-react';
+import { FiHome } from "react-icons/fi";
 
 export default function DashboardSidebar({ userRole, isMock, isOpen, onClose }) {
   const pathname = usePathname();
 
   const userMenuItems = [
+    { href: '/', label: 'Home', icon: FiHome },
     { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/dashboard/myCourse', label: 'My Courses', icon: BookOpen },
     { href: '/dashboard/myProfile', label: 'Profile', icon: User }
   ];
 
   const adminMenuItems = [
+    { href: '/', label: 'Home', icon: FiHome },
     { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/dashboard/users', label: 'Manage Users', icon: Users },
     { href: '/dashboard/addCourse', label: 'Add Course', icon: Plus },
