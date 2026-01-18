@@ -1,0 +1,39 @@
+[
+  {
+    "id": 1,
+    "name": "Admin",
+    "email": "admin246@skillshelf.com",
+    "password": "Admin@246",
+    "phone": "+8801860687868",
+    "role": "admin",
+    "isMock": false,
+    "createdAt": "2026-01-17T14:57:45.187Z"
+  },
+  {
+    "id": 2,
+    "name": "Raikatun Naim Maimuna",
+    "email": "mj9644212@gmail.com",
+    "googleId": "112561539084142891634",
+    "image": "https://lh3.googleusercontent.com/a/ACg8ocJwE7uJv4L4JCN-EVrqS3ZtBooARTdIR4Ak3D0sYbAmCYAjoc8=s96-c",
+    "role": "user",
+    "createdAt": "2026-01-18T09:17:59.998Z"
+  },
+  {
+    "id": 3,
+    "name": "Student",
+    "email": "student@gmail.com",
+    "password": "Student@123",
+    "phone": "+8801860687844",
+    "role": "user",
+    "createdAt": "2026-01-18T10:06:35.107Z"
+  },
+  {
+    "id": 4,
+    "name": "Student",
+    "email": "student123@gmail.com",
+    "password": "Student@123",
+    "phone": "+8801860687844",
+    "role": "user",
+    "createdAt": "2026-01-18T10:07:58.089Z"
+  }
+]
